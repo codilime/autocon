@@ -1365,7 +1365,7 @@ docker exec -it bms1 tcpdump -nei eth1 udp port 4789
 <p>vm1-red and vm1-green have no IP address. Their DHCP servers are connected to
 BMS-DHCP. The DHCP broadcast reaches them only because BMS1 floods it over
 VNI 100 / 200 to all remote VTEPs (the flood list from Task 6.4).</p>
-<p>Optionally, watch the DHCP server side:</p>
+<p><span class="optional">[ Optional ]</span> watch the DHCP server side:</p>
 <pre><code class="language-bash"># Separate terminal
 docker exec -it dhcp-red tcpdump -nei eth1 port 67 or port 68
 </code></pre>
@@ -2553,9 +2553,9 @@ connects the two vhost-user sockets.</p>
 </tbody>
 </table>
 <p>At the <code>testpmd&gt;</code> prompt, check:</p>
-<pre><code>testpmd&gt; show port info all
-testpmd&gt; show config fwd
-testpmd&gt; show port stats all
+<pre><code>show port info all
+show config fwd
+show port stats all
 </code></pre>
 <p>Expected result: two ports, <code>net_virtio_user0</code> (port 0) and
 <code>net_virtio_user1</code> (port 1), both with link up. Forwarding mode is <code>io</code>, with
