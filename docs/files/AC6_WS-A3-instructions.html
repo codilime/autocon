@@ -277,7 +277,7 @@ pre { position: relative; }
 <section class="cover">
   <h1 class="cover-title">Into the Unknown: Deep Dive into the Linux Network Stack</h1>
   <p class="cover-subtitle">Lab manual</p>
-  <p class="cover-date">October 2026</p>
+  <p class="cover-date">November 2026</p>
 </section>
 
 <nav class="toc">
@@ -440,9 +440,9 @@ remote editor.</p>
 </li>
 </ul>
 <h2 id="intro-running-a-lab">Running a lab</h2>
-<p>Each lab is in its own directory (<code>lab1</code> … <code>lab5</code>) in your home directory on
-the VM. The basic flow is the same for every lab:</p>
-<pre><code class="language-bash">cd lab1
+<p>Each lab is in its own <code>labs1</code> subdirectory (<code>lab1</code> … <code>lab5</code>) in your home
+directory on the VM. The basic flow is the same for every lab:</p>
+<pre><code class="language-bash">cd ~/labs/lab1
 containerlab deploy -t lab1.clab.yml     # build the lab
 containerlab inspect -t lab1.clab.yml    # list nodes and management IPs
 # ... exercises ...
