@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>Into the Unknown: Deep Dive into the Linux Network Stack</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
 <style>
 /* Based on CodiLime_headed_paper_numbered.html: A4, 85pt / 70.9pt margins,
    text #2d2926, secondary text #7e7c7a, accent #a3ed00 / #bed747. */
@@ -245,7 +246,7 @@ table.md-table code { font-size: 0.92em; }
   p { text-align: left; }
 }
 pre { position: relative; }
-.copy-btn {
+.copy-btn, .img-btn {
   position: absolute;
   top: 4pt;
   right: 4pt;
@@ -260,9 +261,13 @@ pre { position: relative; }
   cursor: pointer;
   opacity: 0.85;
 }
-.copy-btn:hover { opacity: 1; border-color: var(--accent-soft); }
+.copy-btn:hover, .img-btn:hover { opacity: 1; border-color: var(--accent-soft); }
 .copy-btn.done { background: var(--accent); border-color: var(--accent); }
-@media print { .copy-btn { display: none; } }
+/* Topology images: white background (transparent PNGs are unreadable in dark mode)
+   and an "Open in new tab" button in the top-right corner. */
+.img-wrap { position: relative; width: fit-content; max-width: 100%; margin: 8pt auto; }
+.img-wrap > img { margin: 0; background: #fff; }
+@media print { .copy-btn, .img-btn { display: none; } }
 
 </style>
 </head>
@@ -3374,6 +3379,33 @@ document.querySelectorAll("pre > code.language-bash").forEach(function (code) {
     }
   });
   pre.appendChild(btn);
+});
+
+// "Open in new tab" for the lab images. They are data: URIs, which browsers refuse to
+// open as a top-level page, so the new tab gets a small HTML page (white background,
+// fit to window, click to toggle full size) as a blob: URL.
+document.querySelectorAll("img").forEach(function (img) {
+  if (img.closest("#page-header")) return;
+  var wrap = document.createElement("div");
+  wrap.className = "img-wrap";
+  img.parentNode.insertBefore(wrap, img);
+  wrap.appendChild(img);
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "img-btn";
+  btn.textContent = "Open in new tab";
+  btn.addEventListener("click", function () {
+    var title = (img.alt || "Topology").replace(/[<&]/g, "");
+    var page = '<!doctype html><meta charset="utf-8"><title>' + title + '</title>' +
+      '<style>:root{color-scheme:only light}html,body{margin:0;background:#fff}' +
+      'img{display:block;margin:0 auto;background:#fff;cursor:zoom-in}' +
+      'img.fit{max-width:100vw;max-height:100vh}img:not(.fit){cursor:zoom-out}</style>' +
+      '<img class="fit" alt="" src="' + img.src + '" onclick="this.classList.toggle(&quot;fit&quot;)">';
+    var url = URL.createObjectURL(new Blob([page], { type: "text/html" }));
+    window.open(url, "_blank");
+    setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+  });
+  wrap.appendChild(btn);
 });
 
 </script>
